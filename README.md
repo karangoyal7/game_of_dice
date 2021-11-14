@@ -12,6 +12,8 @@ Output:
 
 Flowchart of Methodology:
 
+![](flowchart.png)
+
 Live link of project:
 
 https://karangoyal7.github.io/game_of_dice/
