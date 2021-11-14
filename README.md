@@ -10,6 +10,8 @@ Flowchart of Methodology:
 
 Live link of project:
 
+https://karangoyal7.github.io/game_of_dice/
+
 Novelty:
 
 This game is played following some rules which makes it novel and more interesting for the players than standard games.
