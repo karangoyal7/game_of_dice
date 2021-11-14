@@ -4,7 +4,11 @@ This game consists of two players who roll two dies alternately and the player w
 
 Input:
 
+![](input.PNG)
+
 Output:
+
+![](output.PNG)
 
 Flowchart of Methodology:
 
