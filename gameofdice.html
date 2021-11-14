@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+<head>
+	<title>My Webpage</title>
+	<style>
+		body
+		{
+			background-color:#A88255;
+			font-family:calibri;
+		}
+		.container
+		{
+			background-color:white;
+			margin:0px auto;
+			margin-top:80px;
+			width:800px;
+			height:500px;
+		}
+		#plus
+		{
+			height:20px;
+			width:20px;
+		}
+		#top-section
+		{
+			padding-top:30px;
+			margin-left:320px;
+		}
+		.btn-new
+		{
+			margin-left:10px;
+			position:relative;
+			top:-3px;
+			font-size:20px;
+		}
+		.name
+		{
+			font-size:40px;
+		}
+		.score
+		{
+			font-size:50px;
+			margin-top:-30px;
+			margin-left:50px;
+			color:red;
+		}
+		.player-0-panel
+		{
+			width:200px;
+			margin-left:120px;
+			float:left;
+			padding-top:10px;
+		}
+		.player-1-panel
+		{
+			padding-top:10px;
+			width:200px;
+			float:left;
+			margin-left:-30px;
+		}
+		.dice-panel
+		{
+			width:200px;
+			float:left;
+			margin-left:50px;
+			font-size:20px;
+		}
+		.box
+		{
+			background-color:red;
+			width:100px;
+			height:70px;
+			margin-top:100px;
+			margin-left:20px;
+		}
+		.current
+		{
+			padding-top:10px;
+			padding-left:16px;
+		}
+		.btn-roll
+		{
+			margin-top:240px;
+			margin-left:-40px;
+		}
+		.btn-hold
+		{
+			margin-top:20px;
+			margin-left:-20px;
+		}
+		#roll
+		{
+			height:20px;
+			width:20px;
+			margin-right:10px;
+		}
+		#hold
+		{
+			height:20px;
+			width:20px;
+			margin-right:10px;
+		}
+		.currentScore
+		{
+			font-size:28px;
+			color:white;
+			position:relative;
+			top:-24px;
+			left:38px;
+		}
+		#finalScore
+		{
+			margin:20px 0 0 -35px;
+			padding:5px 0 5px 10px;
+			width:100px;
+		}
+		#dice1
+		{
+			margin-top:100px;
+			float:left;
+			margin-left:-25px;
+			margin-right:10px;
+		}
+		#dice2
+		{
+			margin-top:100px;
+			float:left;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="top-section">
+			<img id="plus" src="images/plus.png">
+			<span class="btn-new">NEW GAME</span>
+		</div>
+		<div id="middle-section">
+			<div class="player-0-panel">
+				<p class="name" id="name-0">PLAYER 1</p>
+				<p class="score" id="score-0"></p>
+				<div class="box">
+					<p class="current">CURRENT</p>
+					<p class="currentScore" id="current-0"></p>
+				</div>
+			</div>
+			<div class="dice-panel">
+				<img id="dice1">
+				<img id="dice2">
+				<div class="btn-roll">
+					<img id="roll" src="images/roll.jpg">
+					<span>ROLL DICE</span>
+				</div>
+				<div class="btn-hold">
+					<img id="hold" src="images/hold.png">
+					<span>HOLD</span>
+				</div>
+				<input type="text" placeholder="FINAL SCORE" id="finalScore">
+			</div>
+			<div class="player-1-panel">
+				<p class="name" id="name-1">PLAYER 2</p>
+				<P class="score" id="score-1"></p>
+				<div class="box">
+					<p class="current">CURRENT</p>
+					<p class="currentScore" id="current-1"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		init();
+		var scores,roundScore,activePlayer,gamePlaying;
+		var i=0;
+		document.querySelector(".btn-roll").addEventListener("click",function(){
+			if(gamePlaying)
+			{
+				var dice1 = Math.floor(Math.random()*6)+1;
+				var dice2 = Math.floor(Math.random()*6)+1;
+				document.querySelector("#dice1").style.display = "block";
+				document.querySelector("#dice2").style.display = "block";
+				document.querySelector("#dice1").src = "images/dice-"+dice1+".png";
+				document.querySelector("#dice2").src = "images/dice-"+dice2+".png";
+			if(dice1!=1 && dice2!=1){
+				roundScore=roundScore+dice1+dice2;
+				document.getElementById("current-"+activePlayer).textContent = roundScore;
+			}
+			else
+			{
+				nextPlayer();
+			}
+		}
+		})
+		document.querySelector(".btn-hold").addEventListener("click",function(){
+			if(gamePlaying)
+			{scores[activePlayer]=scores[activePlayer]+roundScore;
+			document.getElementById("score-"+activePlayer).textContent = scores[activePlayer];
+			var input = document.getElementById("finalScore").value;
+			var winningScore;
+			if(input)
+			{
+				winningScore = input;
+			}
+			else
+			{
+				winningScore = 100;
+			}
+			if(scores[activePlayer]>=winningScore){
+				document.getElementById("name-"+activePlayer).textContent = "Winner";
+				document.querySelector(".player-"+activePlayer+"-panel").classList.add("winner");
+				document.querySelector(".player-"+activePlayer+"-panel").classList.remove("active");
+				gamePlaying=false;
+			}
+			else
+			{
+				nextPlayer();
+			}
+		}
+		})
+		function nextPlayer(){
+			if(activePlayer==0)
+			{
+				activePlayer = 1;
+			}
+			else
+			{
+				activePlayer = 0;
+			}
+			roundScore=0;
+			document.getElementById("current-0").textContent = 0;
+			document.getElementById("current-1").textContent = 0;
+			document.querySelector(".player-0-panel").classList.toggle("active");
+			document.querySelector(".player-1-panel").classList.toggle("active");
+		}
+		document.querySelector(".btn-new").addEventListener("click",init);
+		function init(){
+			scores=[0,0];
+			activePlayer=0;
+			roundScore=0;
+			gamePlaying=true;
+			document.getElementById("score-0").textContent = 0;
+			document.getElementById("score-1").textContent = 0;
+			document.getElementById("current-0").textContent = 0;
+			document.getElementById("current-1").textContent = 0;
+			document.getElementById("name-0").textContent = "Player 1";
+			document.getElementById("name-1").textContent = "Player 2";
+			document.querySelector(".player-0-panel").classList.remove("winner");
+			document.querySelector(".player-1-panel").classList.remove("winner");
+			document.querySelector(".player-0-panel").classList.remove("active");
+			document.querySelector(".player-1-panel").classList.remove("active");
+			document.querySelector(".player-0-panel").classList.add("active");
+
+		}
+	</script>
+</body>
+</html>
